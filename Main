@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Driven Fashion Recommender</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #ff758c;
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        main {
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            width: 80%;
+            max-width: 500px;
+        }
+        button {
+            padding: 12px 25px;
+            margin-top: 10px;
+            background: #ff758c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #ff527b;
+            transform: scale(1.05);
+        }
+        select, input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        #wardrobe, #outfitSuggestion {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .clothing-item {
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+            border-radius: 10px;
+            border: 2px solid #ff758c;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s;
+        }
+        .clothing-item:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Fashion Outfit Recommender
+    </header>
+    
+    <main>
+        <section id="upload-section">
+            <h2>Upload Your Wardrobe</h2>
+            <input type="file" id="imageUpload" accept="image/*">
+            <button onclick="uploadImage()">Upload</button>
+            <div id="wardrobe"></div>
+        </section>
+        
+        <section id="recommend-section">
+            <h2>Get Outfit Recommendations</h2>
+            <label for="weather">Select Weather:</label>
+            <select id="weather">
+                <option value="hot">Hot</option>
+                <option value="cold">Cold</option>
+                <option value="rainy">Rainy</option>
+            </select>
+            
+            <label for="occasion">Select Occasion:</label>
+            <select id="occasion">
+                <option value="casual">Casual</option>
+                <option value="formal">Formal</option>
+                <option value="party">Party</option>
+            </select>
+            
+            <button onclick="generateOutfit()">Generate Outfit</button>
+            <div id="outfitSuggestion"></div>
+        </section>
+    </main>
+    
+    <script>
+        function uploadImage() {
+            const input = document.getElementById('imageUpload');
+            const wardrobe = document.getElementById('wardrobe');
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgDiv = document.createElement('div');
+                    imgDiv.classList.add('clothing-item');
+                    imgDiv.style.backgroundImage = `url(${e.target.result})`;
+                    wardrobe.appendChild(imgDiv);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        
+        function generateOutfit() {
+            const weather = document.getElementById('weather').value;
+            const occasion = document.getElementById('occasion').value;
+            const outfitSuggestion = document.getElementById('outfitSuggestion');
+            
+            const outfits = {
+                hot: {
+                    casual: "T-shirt and Shorts",
+                    formal: "Linen Shirt and Chinos",
+                    party: "Polo Shirt and Slim Fit Jeans"
+                },
+                cold: {
+                    casual: "Hoodie and Jeans",
+                    formal: "Blazer and Trousers",
+                    party: "Sweater and Stylish Pants"
+                },
+                rainy: {
+                    casual: "Waterproof Jacket and Jeans",
+                    formal: "Trench Coat and Suit",
+                    party: "Denim Jacket and Sneakers"
+                }
+            };
+            
+            outfitSuggestion.innerHTML = `<h3 style="color:#ff758c;">Recommended Outfit: ${outfits[weather][occasion]}</h3>`;
+        }
+    </script>
+</body>
+</html>
